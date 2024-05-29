@@ -1,0 +1,7 @@
+# TODO: Define your analyzer here.
+
+module dnstunnelling;
+
+public type dnstun_unit = unit {
+    payload: bytes &eod;
+};
