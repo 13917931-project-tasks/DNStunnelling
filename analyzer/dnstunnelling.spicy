@@ -3,5 +3,43 @@
 module dnstunnelling;
 
 public type dnstun_unit = unit {
+    id: Dns_Id;
+    flags: Flags;
+    questions: Questions:
+    an_rrs: Answer_RRs;
+    auth_rrs: Authoritative_RRs;
+    q&a: Queries&Additional_records;
+    #on %done { print self;} 
+    	
+};
+
+public type Dns_Id = unit {
+    id_data: bytes &size=2;
+    #id_data: bytes &until=b"\x00";
+    on %done {print "Id's: %s" % self; }
+};
+
+public type Flags = unit {
+    flags_a: bytes &size=1;
+    flags_b: bytes &size=2 if (self.flags_a == b"\x9e");
+    flags_c: bytes &size=1 if (self.flags_a != b"\x9e");
+    #flags_data: bytes &until=b"\x00";
+    on %done { print "Flags: %s" % self; }
+};
+
+public type Questions = unit {
+   data: bytes &size=2;
+};
+
+public type Answer_RRs = unit {
+  data: bytes &size=2;
+};
+
+public type Authority_RRs = unit {
+  data: bytes &size=2;
+};
+
+public type Queries&Additional_records = unit {
     payload: bytes &eod;
 };
+
