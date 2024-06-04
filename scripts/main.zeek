@@ -24,7 +24,8 @@ export {
 		## The type of the message
 		mtype: string &log;
 		## The size of the payload
-		len: count &log;
+		#len: count &log;
+                mflags: string &log;
 
 		# TODO: Adapt subsequent fields as needed.
 
@@ -92,7 +93,7 @@ event zeek_init() &priority=5
 #	}
 
 # Example event defined in dnstunnelling.evt.
-event dnstunnelling::message(c: connection, is_orig: bool, payload: string)
+event dnstunnelling::message(c: connection, is_orig: bool, payload: string, flags_data: string)
 	{
 	#hook set_session(c);
 	#local info = c$dnstunnelling;
@@ -113,7 +114,7 @@ event dnstunnelling::message(c: connection, is_orig: bool, payload: string)
 	if (|payload|>250)
 	{
 	
-	Log::write(dnstunnelling::LOG, [$ts=network_time(), $uid=c$uid, $id=c$id, $mtype=msg_type, $len=|payload|]);
+	Log::write(dnstunnelling::LOG, [$ts=network_time(), $uid=c$uid, $id=c$id, $mtype=msg_type, $mflags=flags_data]);
 	
 	}
 }
