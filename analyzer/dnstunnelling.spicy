@@ -5,15 +5,15 @@ module dnstunnelling;
 public type dnstun_unit = unit {
     id: Dns_Id;
     flags: Flags;
+    payload: bytes &eod;
 
-    switch ( self.flags.flags_a ){
-      b"\x9e" -> rrp: ReadResponse;
-    };
+    #switch ( self.flags.flags_a ){
+    #  b"\x9e" -> rrp: ReadResponse;
+    #};
 
-    #payload: bytes &eod;
     #on %done { print self;} 
     	
-};
+} &convert=self.flags.flags_data.to_int();
 
 public type ReadResponse = unit {
    
@@ -31,10 +31,10 @@ public type Dns_Id = unit {
 };
 
 public type Flags = unit {
-    flags_a: bytes &size=1;
-    flags_b: bytes &size=2 if (self.flags_a == b"\x9e");
-    flags_c: bytes &size=1 if (self.flags_a != b"\x9e");
-    #flags_data: bytes &until=b"\x00";
+    #flags_a: bytes &size=1;
+    #flags_b: bytes &size=2 if (self.flags_a == b"\x9e");
+    #flags_c: bytes &size=1 if (self.flags_a != b"\x9e");
+    flags_data: bytes &size=2;
     on %done { print "Flags: %s" % self; }
 };
 
