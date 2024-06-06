@@ -24,8 +24,9 @@ export {
 		## The type of the message
 		mtype: string &log;
 		## The size of the payload
-		#len: count &log;
-                mflags: string &log;
+		len: count &log;
+                #A flag byte which can show an anomaly;
+		mflags: string &log;
 
 		# TODO: Adapt subsequent fields as needed.
 
@@ -110,13 +111,14 @@ event dnstunnelling::message(c: connection, is_orig: bool, payload: string, flag
 		#info$reply = payload;
 		msg_type = "REPLY";
 	}	
-
+	
+	#if (flags_data = "b"\x9e""){
 	if (|payload|>250)
 	{
 	
-	Log::write(dnstunnelling::LOG, [$ts=network_time(), $uid=c$uid, $id=c$id, $mtype=msg_type, $mflags=flags_data]);
-	
+	Log::write(dnstunnelling::LOG, [$ts=network_time(), $uid=c$uid, $id=c$id, $mtype=msg_type, $len=|payload|, $mflags=flags_data]);
 	}
+	#}
 }
 
 #hook finalize_dnstunnelling(c: connection)
