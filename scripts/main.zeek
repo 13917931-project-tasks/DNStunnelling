@@ -40,7 +40,7 @@ export {
 	#global log_policy: Log::PolicyHook;
 
 	## Default hook into dnstunnelling logging.
-	#global log_dnstunnelling: event(rec: Info);
+	global log_dnstunnelling: event(rec: Info);
 
 	## dnstunnelling finalization hook.
 	#global finalize_dnstunnelling: Conn::RemovalHook;
@@ -65,7 +65,7 @@ event zeek_init() &priority=5
 	{
 	#Log::create_stream(dnstunnelling::LOG, [$columns=Info, $ev=log_dnstunnelling, $path="dnstunnelling", $policy=log_policy]);
 
-	Log::create_stream(dnstunnelling::LOG, [$columns=Info, $path="dnstunnelling"]);	
+	Log::create_stream(dnstunnelling::LOG, [$columns=Info, $ev=log_dnstunnelling, $path="dnstunnelling"]);	
 
 	
 	Analyzer::register_for_ports(Analyzer::ANALYZER_DNSTUNNELLING, ports);
