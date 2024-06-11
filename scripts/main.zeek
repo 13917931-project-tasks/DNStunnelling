@@ -94,7 +94,7 @@ event zeek_init() &priority=5
 #	}
 
 # Example event defined in dnstunnelling.evt.
-event dnstunnelling::message_information(c: connection, is_orig: bool, payload: string, flags_data: string)
+event dnstunnelling::message(c: connection, is_orig: bool, payload: string, flags_data: string)
 	{
 	#hook set_session(c);
 	#local info = c$dnstunnelling;
