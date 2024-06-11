@@ -14,13 +14,13 @@ public type dnstun_unit = unit {
 public type Dns_Id = unit {
     id_data: bytes &size=2;
     #id_data: bytes &until=b"\x00";
-    on %done {print "Id's: %s" % self; }
+    #on %done {print "Id's: %s" % self; }
 };
 
 public type Flags = unit {
     #b"\x9e";
     flags_data: bytes &size=1;
-    on %done { print "Flags: %s" % self; }
+    #on %done { print "Flags: %s" % self; }
 };
 
 
