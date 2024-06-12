@@ -8,7 +8,9 @@ public type dnstun_unit = unit {
     payload: bytes &eod;
     #on %done { print self;} 
     	
-} &convert=self.flags.flags_data.to_int();
+}; 
+
+#&convert=self.flags.flags_data.to_int();
 
 
 public type Dns_Id = unit {
@@ -17,9 +19,13 @@ public type Dns_Id = unit {
     #on %done {print "Id's: %s" % self; }
 };
 
+#var window_data:string;
+#wdata: int16 {self.window_data="%d" % $$;}
+
 public type Flags = unit {
     #b"\x9e";
-    flags_data: bytes &size=1;
+    var flags_data:string;
+    fdata: int8 {self.flags_data="%d" % $$;}
     #on %done { print "Flags: %s" % self; }
 };
 
