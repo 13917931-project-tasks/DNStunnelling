@@ -112,13 +112,13 @@ event dnstunnelling::message(c: connection, is_orig: bool, payload: string, flag
 		msg_type = "REPLY";
 	}	
 	
-	#if (flags_data = "b"\x9e""){
+	if (flags_data == "-98"){
 	if (|payload|>250)
 	{
 	
 	Log::write(dnstunnelling::LOG, [$ts=network_time(), $uid=c$uid, $id=c$id, $mtype=msg_type, $len=|payload|, $mflags=flags_data]);
 	}
-	#}
+	}
 }
 
 #hook finalize_dnstunnelling(c: connection)
